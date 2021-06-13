@@ -1,10 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { Task, TaskStatus } from './tasks.model';
-import { v4 as uuid4 } from 'uuid';
-import { CreateTaskDto } from './dto/create-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { EntityManager, getConnection, Repository } from 'typeorm';
+import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskEntity } from './task.entity';
-import { Repository } from 'typeorm';
+import { Task } from './tasks.model';
 @Injectable()
 export class TasksService {
   constructor(
@@ -18,16 +17,24 @@ export class TasksService {
   }
 
   async createTask(createTaskDto: CreateTaskDto): Promise<TaskEntity> {
-    const { name, description } = createTaskDto;
-
-    const task = {
-      name,
-      description,
-      guid: uuid4(),
-      status: TaskStatus.OPEN,
-    };
+    const task = CreateTaskDto.mapTo(createTaskDto);
 
     await this.taskRepository.save(task);
+    return await this.taskRepository.findOne(task.guid);
+  }
+
+  async updateTask(dto: CreateTaskDto, taskId: string): Promise<TaskEntity> {
+    const task = await this.taskRepository.findOne(taskId);
+    const updatedTask = CreateTaskDto.patchTo(dto, task);
+
+    await this.taskRepository.update(taskId, updatedTask);
+
+    /* await getConnection()
+      .createQueryBuilder()
+      .update(TaskEntity)
+      .set(updatedTask)
+      .where('guid = :guid', { guid: taskId })
+      .execute(); */
     return await this.taskRepository.findOne(task.guid);
   }
 }

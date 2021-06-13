@@ -2,8 +2,9 @@ import {
   Body,
   Controller,
   Get,
+  Param,
+  Patch,
   Post,
-  UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
@@ -25,5 +26,13 @@ export class TasksController {
     @Body(new ValidationPipe()) createTaskDto: CreateTaskDto,
   ): Promise<TaskEntity> {
     return this.taskService.createTask(createTaskDto);
+  }
+
+  @Patch('/:taskId')
+  updateTask(
+    @Body(new ValidationPipe()) createTaskDto: CreateTaskDto,
+    @Param('taskId') taskId: string,
+  ): Promise<TaskEntity> {
+    return this.taskService.updateTask(createTaskDto, taskId);
   }
 }
