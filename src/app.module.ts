@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CommentsEntity } from './tasks/comments/comments.entity';
 import { TaskEntity } from './tasks/task.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { UserEntity } from './tasks/users/user.entity';
@@ -14,7 +15,7 @@ import { UserEntity } from './tasks/users/user.entity';
       username: 'postgres',
       password: 'Lock.1310',
       database: 'postgres',
-      entities: [TaskEntity, UserEntity], // using path won't work 'src/**/*.entity.ts'
+      entities: [TaskEntity, UserEntity, CommentsEntity], // using path won't work 'src/**/*.entity.ts'
       logging: true,
       synchronize: true,
     }),

@@ -27,7 +27,7 @@ export class TasksService {
     const task = await this.taskRepository.findOne(taskId);
     const updatedTask = CreateTaskDto.patchTo(dto, task);
 
-    await this.taskRepository.update(taskId, updatedTask);
+    const savedEntity = await this.taskRepository.save(updatedTask);
 
     /* await getConnection()
       .createQueryBuilder()
