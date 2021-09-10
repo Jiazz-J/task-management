@@ -26,7 +26,10 @@ export class CategoryService {
   }
 
   findOne(id: number) {
-    return this.categoryRepository.findOne(id);
+    return this.categoryRepository.find({
+      where: { id },
+      relations: ['children'], // Only one level of querying is working
+    });
   }
 
   update(id: number, updateCategoryDto: UpdateCategoryDto) {
