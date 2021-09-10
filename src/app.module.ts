@@ -6,6 +6,8 @@ import { CommentsEntity } from './tasks/comments/comments.entity';
 import { TaskEntity } from './tasks/task.entity';
 import { TasksModule } from './tasks/tasks.module';
 import { UserEntity } from './tasks/users/user.entity';
+import { CategoryModule } from './category/category.module';
+import { CategoryEntity } from './category/entities/category.entity';
 
 @Module({
   imports: [
@@ -18,10 +20,17 @@ import { UserEntity } from './tasks/users/user.entity';
       username: 'postgres',
       password: 'Lock.1310',
       database: 'postgres',
-      entities: [TaskEntity, UserEntity, CommentsEntity, UserModelEntity], // using path won't work 'src/**/*.entity.ts'
+      entities: [
+        TaskEntity,
+        UserEntity,
+        CommentsEntity,
+        UserModelEntity,
+        CategoryEntity,
+      ], // using path won't work 'src/**/*.entity.ts'
       logging: true,
       synchronize: true,
     }),
+    CategoryModule,
   ],
 })
 export class AppModule {}
