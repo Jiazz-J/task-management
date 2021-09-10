@@ -21,3 +21,24 @@ WITH RECURSIVE subCategories AS (
 	*
 FROM
 	subCategories;
+
+
+
+--- Modified version
+
+
+WITH RECURSIVE subCategories AS (
+	SELECT
+		*
+	FROM
+		category
+	WHERE
+		id = 1234
+	UNION
+		SELECT e.* FROM
+			category e
+		INNER JOIN subCategories s ON s."id" = e."parentId"
+) SELECT
+	*
+FROM
+	subCategories;
