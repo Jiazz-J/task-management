@@ -14,7 +14,7 @@ export class CreateCategoryDto {
       id: dto.id,
       description: dto.description,
       name: dto.name,
-      children: dto.subCategories
+      categories: dto.subCategories
         ? CreateCategoryDto.mapNestedCategories(dto.subCategories)
         : undefined,
     });

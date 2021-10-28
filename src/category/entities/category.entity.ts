@@ -19,16 +19,16 @@ export class CategoryEntity {
   @Column()
   description: string;
 
-  @OneToMany((type) => CategoryEntity, (category) => category.parent, {
+  @OneToMany((type) => CategoryEntity, (category) => category.category, {
     cascade: true, // When adding cascade to children the persistence worked
     //  eager: true,
   })
-  children?: CategoryEntity[];
+  categories?: CategoryEntity[];
 
-  @ManyToOne((type) => CategoryEntity, (category) => category.children, {
+  @ManyToOne((type) => CategoryEntity, (category) => category.categories, {
     // eager: true,
   })
-  parent: CategoryEntity;
+  category: CategoryEntity;
 
   constructor(override: Partial<CategoryEntity>) {
     Object.assign(this, override);

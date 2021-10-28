@@ -16,7 +16,8 @@ export class CategoryService {
   } */
 
   async create(category: CreateCategoryDto): Promise<any> {
-    return this.categoryRepository.save(category);
+    await this.categoryRepository.save(category);
+    return await this.findOne(category.id);
   }
 
   findAll() {
@@ -28,7 +29,11 @@ export class CategoryService {
   findOne(id: number) {
     return this.categoryRepository.find({
       where: { id },
-      relations: ['children'], // Only one level of querying is working
+      relations: [
+        'categories',
+        'categories.categories',
+        'categories.categories.categories',
+      ], // Only one level of querying is working
     });
   }
 
